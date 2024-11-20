@@ -23,16 +23,27 @@ const todoSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        createTodo(state, action: PayloadAction<{ text: string }>) {
+        createTodo(state, action: PayloadAction<string>) {
             state.todosArr.push({
                 id: String(Date.now()),
-                text: action.payload.text,
+                text: action.payload,
                 checked: false,
             });
         },
-        updateTodo(state, action: PayloadAction<{ text: string }>) {},
-        getTodosArr(state, action: PayloadAction<{ text: string }>) {},
-        toggleTodo(state, action: PayloadAction<{ text: string }>) {},
+        updateTodo(state, action: PayloadAction<{ id:string, text: string }>) {
+            const { id, text } = action.payload;
+            const todo = state.todosArr.find(todo => todo.id === id);
+            if (todo && todo.text !== text) {
+                todo.text = text;
+            }
+        },
+        toggleTodo(state, action: PayloadAction<{id: string, checked: boolean }>) {
+            const { id, checked } = action.payload;
+            const todo = state.todosArr.find(todo => todo.id === id);
+                if (todo) {
+                    todo.checked = !checked;
+                }
+        },
         deleteTodo(state, action: PayloadAction<string>) {
             state.todosArr = state.todosArr.filter(i => i.id !== action.payload);
         },
