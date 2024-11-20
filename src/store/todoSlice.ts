@@ -1,13 +1,22 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-interface TodoItem {
+export interface TodoStateItem {
     id: string;
     text: string;
     checked: boolean;
 }
 
+// const initialState = {
+//     todosArr: [] as TodoItem[]
+// }
+
+// TODO убрать мокнутый аррэй
 const initialState = {
-    todosArr: [] as TodoItem[]
+    todosArr: [
+        {id: '1', text: 'todo1', checked: false},
+        {id: '2', text: 'todo2', checked: false},
+        {id: '3', text: 'todo3', checked: true},
+    ] as TodoStateItem[]
 }
 
 const todoSlice = createSlice({
@@ -15,21 +24,21 @@ const todoSlice = createSlice({
     initialState,
     reducers: {
         createTodo(state, action: PayloadAction<{ text: string }>) {
-            console.log(state)
-            console.log(action)
             state.todosArr.push({
                 id: String(Date.now()),
                 text: action.payload.text,
                 checked: false,
             });
         },
-        updateTodo(state, action) {},
-        getTodosArr(state, action) {},
-        toggleTodo(state, action) {},
-        deleteTodo(state, action) {},
+        updateTodo(state, action: PayloadAction<{ text: string }>) {},
+        getTodosArr(state, action: PayloadAction<{ text: string }>) {},
+        toggleTodo(state, action: PayloadAction<{ text: string }>) {},
+        deleteTodo(state, action: PayloadAction<string>) {
+            state.todosArr = state.todosArr.filter(i => i.id !== action.payload);
+        },
     }
 })
 
-export const { createTodo, updateTodo, toggleTodo, deleteTodo } = todoSlice.actions;
+export const { createTodo, updateTodo, toggleTodo, deleteTodo, getTodosArr } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -1,19 +1,20 @@
 import React from 'react';
 
 interface TodoItemProps {
+    id: string;
     text: string;
     checked: boolean;
     updateTodo: () => void;
-    openDeleteModal: () => void;
+    handleDeleteClick: (id: string) => void;
 }
 
 const TodoItem = (props: TodoItemProps) => {
-    const {text, checked, updateTodo, openDeleteModal} = props;
+    const {id, text, checked, updateTodo, handleDeleteClick} = props;
     return (
         <li>
             <input onChange={updateTodo} checked={checked} type="checkbox"/>
             <input type="text" value={text}/>
-            <button onClick={openDeleteModal}>delete</button>
+            <button onClick={() => handleDeleteClick(id)}>delete</button>
         </li>
     );
 };
