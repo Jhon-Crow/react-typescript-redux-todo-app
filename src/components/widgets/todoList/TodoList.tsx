@@ -20,9 +20,10 @@ const TodoList = memo((props: TodoListProps) => {
         setIsOpenModal(true);
     }, [setTodoToDelete, setIsOpenModal]);
 
-    return (
+    return todosArr.length
+        ? (
         <Stack spacing={1}>
-            {todosArr.map((i: TodoStateItem) => (
+             {todosArr.map((i: TodoStateItem) => (
                 <TodoItem
                     key={i.id}
                     id={i.id}
@@ -32,7 +33,8 @@ const TodoList = memo((props: TodoListProps) => {
                 />
             ))}
         </Stack>
-    );
+    )
+        : <h1>it's empty here</h1>;
 });
 
 export default TodoList;

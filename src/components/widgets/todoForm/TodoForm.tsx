@@ -1,20 +1,31 @@
 import {Box, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {createTodo} from "../../../store/todoSlice.ts";
 
 const TodoForm = () => {
     const [textValue, setTextValue] = useState('');
     const dispatch = useDispatch();
+    const trimmedValue = useMemo(() => textValue.trim(), [textValue]);
 
-
-    const handleAddTodo = useCallback(() => {
-        if (textValue.trim()) {
+    const addTodoHandler = useCallback(() => {
+        if (trimmedValue) {
             dispatch(createTodo(textValue));
             setTextValue('');
         }
     }, [dispatch, textValue]);
+
+    const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setTextValue(e.target.value);
+    }, []);
+
+    const onKeyDownEnterHandler = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            addTodoHandler();
+        }
+    }, [addTodoHandler]);
 
     return (
         <Box
@@ -25,15 +36,23 @@ const TodoForm = () => {
             sx={{ width: 500, maxWidth: '100%' }}
         >
             <TextField
+                error={!trimmedValue}
                 fullWidth={true}
-                onChange={(e) => setTextValue(e.target.value)}
+                onChange={onChangeHandler}
                 value={textValue}
                 label='Add todo'
-                multiline
                 variant="standard"
                 size="small"
+                onKeyDown={onKeyDownEnterHandler}
             />
-            <Button onClick={handleAddTodo} variant='outlined' color="success">ok</Button>
+            <Button
+                disabled={!trimmedValue}
+                onClick={addTodoHandler}
+                variant='outlined'
+                color="success"
+            >
+                ok
+            </Button>
         </Box>
     );
 };

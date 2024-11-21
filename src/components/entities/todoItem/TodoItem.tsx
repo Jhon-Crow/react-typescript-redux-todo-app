@@ -7,14 +7,13 @@ import {useDispatch} from "react-redux";
 
 interface TodoItemProps {
     id: string;
-    key: string;
     text: string;
     checked: boolean;
     handleDeleteClick: (id: string) => void;
 }
 
 const TodoItem = memo((props: TodoItemProps) => {
-    const { key, id, text, checked, handleDeleteClick } = props;
+    const { id, text, checked, handleDeleteClick } = props;
     const [textValue, setTextValue] = useState(text);
     const dispatch = useDispatch();
 
@@ -34,7 +33,6 @@ const TodoItem = memo((props: TodoItemProps) => {
             display="flex"
             alignItems='center'
             justifyContent='start'
-            key={key}
             sx={{ width: 580, maxWidth: '100%' }}
         >
             <Checkbox
