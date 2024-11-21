@@ -6,11 +6,6 @@ export interface TodoStateItem {
     checked: boolean;
 }
 
-// const initialState = {
-//     todosArr: [] as TodoItem[]
-// }
-
-// TODO убрать мокнутый аррэй
 const initialState = {
     todosArr: [
         {id: '1', text: 'todo1', checked: false},
@@ -44,12 +39,12 @@ const todoSlice = createSlice({
                     todo.checked = !checked;
                 }
         },
-        deleteTodo(state, action: PayloadAction<string>) {
+        deleteTodo(state, action: PayloadAction<string | null>) {
             state.todosArr = state.todosArr.filter(i => i.id !== action.payload);
         },
     }
 })
 
-export const { createTodo, updateTodo, toggleTodo, deleteTodo, getTodosArr } = todoSlice.actions;
+export const { createTodo, updateTodo, toggleTodo, deleteTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

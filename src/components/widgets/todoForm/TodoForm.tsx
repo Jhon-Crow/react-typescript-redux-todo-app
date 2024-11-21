@@ -1,23 +1,31 @@
-import { TextField } from "@mui/material";
+import {Box, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import {useCallback, useState} from "react";
 import {createTodo} from "../../../store/todoSlice.ts";
 
 const TodoForm = () => {
     const [textValue, setTextValue] = useState('');
     const dispatch = useDispatch();
 
-    const handleAddTodo = () => {
+
+    const handleAddTodo = useCallback(() => {
         if (textValue.trim()) {
             dispatch(createTodo(textValue));
             setTextValue('');
         }
-    };
+    }, [dispatch, textValue]);
 
     return (
-        <div>
+        <Box
+            gap={1}
+            display="flex"
+            alignItems='center'
+            justifyContent='start'
+            sx={{ width: 500, maxWidth: '100%' }}
+        >
             <TextField
+                fullWidth={true}
                 onChange={(e) => setTextValue(e.target.value)}
                 value={textValue}
                 label='Add todo'
@@ -26,7 +34,7 @@ const TodoForm = () => {
                 size="small"
             />
             <Button onClick={handleAddTodo} variant='outlined' color="success">ok</Button>
-        </div>
+        </Box>
     );
 };
 

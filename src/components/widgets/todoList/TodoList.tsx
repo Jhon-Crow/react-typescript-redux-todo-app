@@ -1,28 +1,38 @@
 import TodoItem from "../../entities/todoItem/TodoItem.tsx";
-import {useSelector} from "react-redux";
-import {Stack} from "@mui/material";
+import { useSelector } from "react-redux";
+import { Stack } from "@mui/material";
+import { TodoStateItem } from "../../../store/todoSlice.ts";
+import { RootState } from "../../../store";
+import {memo, useCallback} from "react";
 
 interface TodoListProps {
     setIsOpenModal: (arg: boolean) => void;
-    updateTodo: () => void;
     setTodoToDelete: (id: string | null) => void;
 }
 
-const TodoList = (props: TodoListProps) => {
-    const todosArr = useSelector(state => state.todos.todosArr)
+const TodoList = memo((props: TodoListProps) => {
+    const todosArr = useSelector((state: RootState) => state.todos.todosArr);
 
-    const {setIsOpenModal, setTodoToDelete} = props;
+    const { setIsOpenModal, setTodoToDelete } = props;
 
-    const handleDeleteClick = (id: string) => {
+    const handleDeleteClick = useCallback((id: string) => {
         setTodoToDelete(id);
         setIsOpenModal(true);
-    };
+    }, [setTodoToDelete, setIsOpenModal]);
 
     return (
         <Stack spacing={1}>
-            {todosArr.map(i => <TodoItem id={i.id} text={i.text} checked={i.checked} handleDeleteClick={handleDeleteClick}/>)}
+            {todosArr.map((i: TodoStateItem) => (
+                <TodoItem
+                    key={i.id}
+                    id={i.id}
+                    text={i.text}
+                    checked={i.checked}
+                    handleDeleteClick={handleDeleteClick}
+                />
+            ))}
         </Stack>
     );
-};
+});
 
 export default TodoList;

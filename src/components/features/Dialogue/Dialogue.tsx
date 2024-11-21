@@ -1,28 +1,54 @@
 import Button from "@mui/material/Button";
+import Dialog from '@mui/material/Dialog';
+import { useCallback, memo } from "react";
+import {DialogActions, DialogTitle} from "@mui/material";
 
 interface ModalProps {
     header?: string;
     isOpen: boolean;
     setIsOpen: (arg: boolean) => void;
-    onOkCallback: () => void;
+    onAcceptCallback: () => void;
 }
 
-const Dialogue = (props: ModalProps) => {
-    const {isOpen, setIsOpen, onOkCallback, header} = props;
-    const closeDialogue = () => setIsOpen(false);
+const Dialogue = memo((props: ModalProps) => {
+    const { isOpen, setIsOpen, onAcceptCallback, header } = props;
 
-    const onClickHandler = () => {
-        onOkCallback();
+    const closeDialogue = useCallback(() => setIsOpen(false), [setIsOpen]);
+
+    const onClickHandler = useCallback(() => {
+        onAcceptCallback();
         closeDialogue();
-    }
+    }, [onAcceptCallback, closeDialogue]);
 
-    return isOpen && (
-        <div>
-            {header && <h1>{header}</h1>}
-            <Button variant='contained' color="success" onClick={onClickHandler}>ok</Button>
-            <Button variant="outlined" color="error" onClick={closeDialogue}>cancel</Button>
-        </div>
+    return (
+        <Dialog
+            onClose={closeDialogue}
+            open={isOpen}
+            maxWidth="md"
+            fullWidth={true}
+
+        >
+            {header && <DialogTitle fontSize="large">{header}</DialogTitle>}
+            <DialogActions>
+                <Button
+                    size="medium"
+                    variant='contained'
+                    color="success"
+                    onClick={onClickHandler}
+                >
+                    ok
+                </Button>
+                <Button
+                    size="medium"
+                    variant="outlined"
+                    color="error"
+                    onClick={closeDialogue}
+                >
+                    cancel
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
-};
+});
 
 export default Dialogue;
