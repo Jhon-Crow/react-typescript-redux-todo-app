@@ -59,6 +59,7 @@ const TodoItem = memo((props: TodoItemProps) => {
                 onClick={checkboxToggle}
                 checked={checked} />
             <TextField
+                InputProps={ { style: {backgroundColor: checked ? 'hotpink' : undefined} }}
                 maxLengthNum={inputLength}
                 label={isEmpty ? 'ENTER TEXT!' : null}
                 error={isEmpty || inputLength === textValue.length}
