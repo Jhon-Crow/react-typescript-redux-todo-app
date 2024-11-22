@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {LOCAL_STORAGE_TODOS} from "../shared/consts/localstorage.ts";
 
 export interface TodoStateItem {
     id: string;
@@ -6,12 +7,13 @@ export interface TodoStateItem {
     checked: boolean;
 }
 
+const loadToDos = localStorage.getItem(LOCAL_STORAGE_TODOS);
+
+
 const initialState = {
-    todosArr: [
-        {id: '1', text: 'todo1', checked: false},
-        {id: '2', text: 'todo2', checked: false},
-        {id: '3', text: 'todo3', checked: true},
-    ] as TodoStateItem[]
+    todosArr: loadToDos
+        ? JSON.parse(loadToDos) as TodoStateItem[]
+        : [] as TodoStateItem[]
 }
 
 const todoSlice = createSlice({
@@ -42,9 +44,19 @@ const todoSlice = createSlice({
         deleteTodo(state, action: PayloadAction<string | null>) {
             state.todosArr = state.todosArr.filter(i => i.id !== action.payload);
         },
+        saveTodos: (state) => {
+            const saveTodos = JSON.stringify(state.todosArr);
+            localStorage.setItem(LOCAL_STORAGE_TODOS, saveTodos);
+        }
     }
 })
 
-export const { createTodo, updateTodo, toggleTodo, deleteTodo } = todoSlice.actions;
+export const {
+    createTodo,
+    updateTodo,
+    toggleTodo,
+    deleteTodo ,
+    saveTodos
+} = todoSlice.actions;
 
 export default todoSlice.reducer;

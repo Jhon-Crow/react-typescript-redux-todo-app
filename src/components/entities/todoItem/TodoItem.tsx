@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import {Box, Checkbox, TextField} from "@mui/material";
 import {pink} from "@mui/material/colors";
-import {memo, useCallback, useState} from "react";
+import {memo, useCallback, useMemo, useState} from "react";
 import {toggleTodo, updateTodo} from "../../../store/todoSlice.ts";
 import {useDispatch} from "react-redux";
 
@@ -16,9 +16,10 @@ const TodoItem = memo((props: TodoItemProps) => {
     const { id, text, checked, handleDeleteClick } = props;
     const [textValue, setTextValue] = useState(text);
     const dispatch = useDispatch();
+    const trimmedValue = useMemo(() => textValue.trim(), [textValue]);
 
     const handleUpdateTodo = useCallback(() => {
-        if (textValue.trim()) {
+        if (trimmedValue) {
             dispatch(updateTodo({ id: id, text: textValue }));
         }
     }, [dispatch, id, textValue]);
@@ -46,6 +47,8 @@ const TodoItem = memo((props: TodoItemProps) => {
                 onClick={checkboxToggle}
                 checked={checked} />
             <TextField
+                label={!trimmedValue ? 'ENTER TEXT!' : null}
+                error={!trimmedValue}
                 fullWidth={true}
                 onBlur={handleUpdateTodo}
                 onChange={(e) => setTextValue(e.target.value)}

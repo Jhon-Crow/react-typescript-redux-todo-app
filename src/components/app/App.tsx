@@ -1,15 +1,28 @@
 import TodoList from "../widgets/todoList/TodoList.tsx";
 import TodoForm from "../widgets/todoForm/TodoForm.tsx";
 import Dialogue from "../features/Dialogue/Dialogue.tsx";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {deleteTodo} from "../../store/todoSlice.ts";
+import {deleteTodo, saveTodos} from "../../store/todoSlice.ts";
 import {Box, CssBaseline} from "@mui/material";
 
 function App() {
     const dispatch = useDispatch();
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
+
+    useEffect(() => {
+        // initTodo();
+
+        const onBeforeUnloadHandler = () => {
+            dispatch(saveTodos());
+        };
+
+        window.addEventListener('beforeunload', onBeforeUnloadHandler);
+        return () => {
+            window.removeEventListener('beforeunload', onBeforeUnloadHandler);
+        };
+    }, []);
 
 
     const deleteTodoHandler = useCallback(() => {
