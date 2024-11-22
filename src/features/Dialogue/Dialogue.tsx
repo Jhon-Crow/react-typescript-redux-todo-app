@@ -25,7 +25,7 @@ const Dialogue = memo((props: ModalProps) => {
         <Dialog
             onClose={closeDialogue}
             open={isOpen}
-            maxWidth="md"
+            maxWidth="xs"
             fullWidth={true}
         >
             {header && <DialogTitle fontSize="large">{header}</DialogTitle>}
