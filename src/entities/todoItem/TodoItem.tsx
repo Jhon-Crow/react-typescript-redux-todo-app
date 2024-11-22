@@ -19,6 +19,7 @@ const TodoItem = memo((props: TodoItemProps) => {
     const [textValue, setTextValue] = useState(text);
     const dispatch = useDispatch();
     const isEmpty = !(textValue.trim());
+    const inputLength = 52;
 
 
     const handleUpdateTodo = useCallback(() => {
@@ -58,8 +59,9 @@ const TodoItem = memo((props: TodoItemProps) => {
                 onClick={checkboxToggle}
                 checked={checked} />
             <TextField
+                maxLengthNum={inputLength}
                 label={isEmpty ? 'ENTER TEXT!' : null}
-                error={isEmpty}
+                error={isEmpty || inputLength === textValue.length}
                 fullWidth={true}
                 onBlur={handleUpdateTodo}
                 onChange={onChangeHandler}

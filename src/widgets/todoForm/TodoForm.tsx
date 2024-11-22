@@ -9,6 +9,7 @@ const TodoForm = () => {
     const [textValue, setTextValue] = useState('');
     const dispatch = useDispatch();
     const isEmpty = !(textValue.trim());
+    const inputLength = 52;
 
     const addTodoHandler = useCallback(() => {
         if (!isEmpty) {
@@ -37,7 +38,8 @@ const TodoForm = () => {
             sx={{ width: 500, maxWidth: '100%' }}
         >
             <TextField
-                error={isEmpty}
+                error={isEmpty || inputLength === textValue.length}
+                maxLengthNum={inputLength}
                 fullWidth={true}
                 onChange={onChangeHandler}
                 value={textValue}
