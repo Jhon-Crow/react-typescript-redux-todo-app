@@ -1,6 +1,6 @@
 import TodoItem from "../../entities/todoItem/TodoItem.tsx";
 import { useSelector } from "react-redux";
-import { Stack } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import { TodoStateItem } from "../../../store/todoSlice.ts";
 import { RootState } from "../../../store";
 import {memo, useCallback} from "react";

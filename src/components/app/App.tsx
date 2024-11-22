@@ -4,7 +4,8 @@ import Dialogue from "../features/Dialogue/Dialogue.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {deleteTodo, saveTodos} from "../../store/todoSlice.ts";
-import {Box, CssBaseline} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
 function App() {
     const dispatch = useDispatch();
@@ -12,8 +13,6 @@ function App() {
     const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
 
     useEffect(() => {
-        // initTodo();
-
         const onBeforeUnloadHandler = () => {
             dispatch(saveTodos());
         };

@@ -1,5 +1,7 @@
 import Button from '@mui/material/Button';
-import {Box, Checkbox, TextField} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
+import Box from "@mui/material/Box";
 import {pink} from "@mui/material/colors";
 import {memo, useCallback, useMemo, useState} from "react";
 import {toggleTodo, updateTodo} from "../../../store/todoSlice.ts";

@@ -22,7 +22,7 @@ const todoSlice = createSlice({
     reducers: {
         createTodo(state, action: PayloadAction<string>) {
             state.todosArr.push({
-                id: String(Date.now()),
+                id: String(crypto.randomUUID()),
                 text: action.payload,
                 checked: false,
             });

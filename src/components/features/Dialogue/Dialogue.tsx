@@ -1,7 +1,8 @@
 import Button from "@mui/material/Button";
 import Dialog from '@mui/material/Dialog';
 import { useCallback, memo } from "react";
-import {DialogActions, DialogTitle} from "@mui/material";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
 
 interface ModalProps {
     header?: string;
