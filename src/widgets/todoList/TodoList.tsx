@@ -1,13 +1,13 @@
 import TodoItem from "../../entities/todoItem/TodoItem.tsx";
 import { useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
-import { TodoStateItem } from "../../../store/todoSlice.ts";
-import { RootState } from "../../../store";
+import { TodoStateItem } from "../../store/todoSlice.ts";
+import { RootState } from "../../store";
 import {memo, useCallback} from "react";
 
 interface TodoListProps {
     setIsOpenModal: (arg: boolean) => void;
-    setTodoToDelete: (id: string | null) => void;
+    setTodoToDelete: (id: string) => void;
 }
 
 const TodoList = memo((props: TodoListProps) => {

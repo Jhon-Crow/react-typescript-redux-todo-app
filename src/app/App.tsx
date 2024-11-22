@@ -3,14 +3,14 @@ import TodoForm from "../widgets/todoForm/TodoForm.tsx";
 import Dialogue from "../features/Dialogue/Dialogue.tsx";
 import {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {deleteTodo, saveTodos} from "../../store/todoSlice.ts";
+import {deleteTodo, saveTodos} from "../store/todoSlice.ts";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 
 function App() {
     const dispatch = useDispatch();
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
+    const [todoToDelete, setTodoToDelete] = useState<string>('');
 
     useEffect(() => {
         const onBeforeUnloadHandler = () => {

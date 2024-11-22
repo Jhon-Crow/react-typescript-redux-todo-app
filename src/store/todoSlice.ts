@@ -41,7 +41,7 @@ const todoSlice = createSlice({
                     todo.checked = !checked;
                 }
         },
-        deleteTodo(state, action: PayloadAction<string | null>) {
+        deleteTodo(state, action: PayloadAction<string>) {
             state.todosArr = state.todosArr.filter(i => i.id !== action.payload);
         },
         saveTodos: (state) => {

@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import Button from "../../shared/Button/Button.tsx";
 import Dialog from '@mui/material/Dialog';
 import { useCallback, memo } from "react";
 import DialogActions from "@mui/material/DialogActions";
@@ -27,7 +27,6 @@ const Dialogue = memo((props: ModalProps) => {
             open={isOpen}
             maxWidth="md"
             fullWidth={true}
-
         >
             {header && <DialogTitle fontSize="large">{header}</DialogTitle>}
             <DialogActions>

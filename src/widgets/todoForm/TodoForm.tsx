@@ -1,24 +1,24 @@
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
-import {useCallback, useMemo, useState} from "react";
-import {createTodo} from "../../../store/todoSlice.ts";
+import TextField from "../../shared/TextField/TextField.tsx";
+import Button from "../../shared/Button/Button.tsx";
+import {useDispatch} from "react-redux";
+import {useCallback, useState} from "react";
+import {createTodo} from "../../store/todoSlice.ts";
 
 const TodoForm = () => {
     const [textValue, setTextValue] = useState('');
     const dispatch = useDispatch();
-    const trimmedValue = useMemo(() => textValue.trim(), [textValue]);
+    const isEmpty = !(textValue.trim());
 
     const addTodoHandler = useCallback(() => {
-        if (trimmedValue) {
+        if (!isEmpty) {
             dispatch(createTodo(textValue));
             setTextValue('');
         }
     }, [dispatch, textValue]);
 
-    const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setTextValue(e.target.value);
+    const onChangeHandler = useCallback((value: string) => {
+        setTextValue(value);
     }, []);
 
     const onKeyDownEnterHandler = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -37,7 +37,7 @@ const TodoForm = () => {
             sx={{ width: 500, maxWidth: '100%' }}
         >
             <TextField
-                error={!trimmedValue}
+                error={isEmpty}
                 fullWidth={true}
                 onChange={onChangeHandler}
                 value={textValue}
@@ -47,7 +47,7 @@ const TodoForm = () => {
                 onKeyDown={onKeyDownEnterHandler}
             />
             <Button
-                disabled={!trimmedValue}
+                disabled={isEmpty}
                 onClick={addTodoHandler}
                 variant='outlined'
                 color="success"

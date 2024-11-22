@@ -1,11 +1,11 @@
-import Button from '@mui/material/Button';
-import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import {pink} from "@mui/material/colors";
-import {memo, useCallback, useMemo, useState} from "react";
-import {toggleTodo, updateTodo} from "../../../store/todoSlice.ts";
+import {memo, useCallback, useState} from "react";
+import {toggleTodo, updateTodo} from "../../store/todoSlice.ts";
 import {useDispatch} from "react-redux";
+import Button from "../../shared/Button/Button.tsx";
+import TextField from "../../shared/TextField/TextField.tsx";
 
 interface TodoItemProps {
     id: string;
@@ -18,17 +18,26 @@ const TodoItem = memo((props: TodoItemProps) => {
     const { id, text, checked, handleDeleteClick } = props;
     const [textValue, setTextValue] = useState(text);
     const dispatch = useDispatch();
-    const trimmedValue = useMemo(() => textValue.trim(), [textValue]);
+    const isEmpty = !(textValue.trim());
+
 
     const handleUpdateTodo = useCallback(() => {
-        if (trimmedValue) {
-            dispatch(updateTodo({ id: id, text: textValue }));
+        if (!isEmpty) {
+            dispatch(updateTodo({ id, text: textValue }));
         }
     }, [dispatch, id, textValue]);
 
     const checkboxToggle = useCallback(() => {
-        dispatch(toggleTodo({ id: id, checked: checked }));
+        dispatch(toggleTodo({ id, checked }));
     }, [dispatch, id, checked]);
+
+    const deleteHandler = () => {
+        handleDeleteClick(id);
+    };
+
+    const onChangeHandler = useCallback((value: string) => {
+        setTextValue(value);
+    }, []);
 
     return (
         <Box
@@ -49,17 +58,17 @@ const TodoItem = memo((props: TodoItemProps) => {
                 onClick={checkboxToggle}
                 checked={checked} />
             <TextField
-                label={!trimmedValue ? 'ENTER TEXT!' : null}
-                error={!trimmedValue}
+                label={isEmpty ? 'ENTER TEXT!' : null}
+                error={isEmpty}
                 fullWidth={true}
                 onBlur={handleUpdateTodo}
-                onChange={(e) => setTextValue(e.target.value)}
+                onChange={onChangeHandler}
                 value={textValue}
                 size="small" />
             <Button
                 variant="contained"
                 color={"error"}
-                onClick={() => handleDeleteClick(id)}
+                onClick={deleteHandler}
             >delete</Button>
         </Box>
     );
